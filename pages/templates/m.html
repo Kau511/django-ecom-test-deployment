@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django API Query Example</title>
+</head>
+<body>
+    <button id="fetch-button">Fetch Data</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('fetch-button').addEventListener('click', function() {
+            fetch('/product/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').textContent = data.message;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+        // Get the CSRF token from the cookie
+function getCSRFToken() {
+    let csrfToken = null;
+    if (document.cookie && document.cookie !== '') {
+        document.cookie.split(';').forEach(cookie => {
+            const cookiePair = cookie.trim().split('=');
+            if (cookiePair[0] === 'csrftoken') {
+                csrfToken = decodeURIComponent(cookiePair[1]);
+            }
+        });
+    }
+    return csrfToken;
+}
+
+fetch('/api/example/', {
+    method: 'POST',
+    headers: {
+        'X-CSRFToken': getCSRFToken(),
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ key: 'value' })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+
+    </script>
+</body>
+</html>
