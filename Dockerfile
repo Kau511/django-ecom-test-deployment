@@ -1,12 +1,18 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.8
+FROM python:3.7
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION 'python'
 
 # Set the working directory in the container
 WORKDIR /app
+
+# Create the directory for Stackify logs
+RUN mkdir -p /usr/local/stackify/stackify-python-apm/log/
+RUN chmod -R 755 /usr/local/stackify/stackify-python-apm/log/
+
 
 # Copy the requirements file into the container at /app
 COPY requirements.txt /app/

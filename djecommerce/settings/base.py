@@ -1,10 +1,17 @@
 import os
 from decouple import config
+import stackifyapm
+import logging
+import stackify
 
 BASE_DIR = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
 
 SECRET_KEY = config('SECRET_KEY')
+
+# Stackify
+APPLICATION_NAME = 'Djecommerce Ec2'
+ENVIRONMENT = 'Production'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,7 +27,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'django_countries',
-
+    'stackifyapm.contrib.django',
     'core'
 ]
 
@@ -32,6 +39,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'stackifyapm.contrib.django.middleware.TracingMiddleware',
 ]
 
 ROOT_URLCONF = 'djecommerce.urls'
@@ -80,3 +88,36 @@ LOGIN_REDIRECT_URL = '/'
 # CRISPY FORMS
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Logger configurations
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+        'stackify': {
+            'level': 'ERROR',
+            'class': 'stackify.StackifyHandler',
+            'formatter': 'verbose',
+            'application': 'app_ecom',
+            'environment': ENVIRONMENT,
+            'api_key': '5Xg7Cu4Gq5Ai2Hf9Es4Ct8Ud5Yg9Vk4Ee1Oa8Ga',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'stackify'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
