@@ -9,7 +9,7 @@ services:
       - stackify:/var/stackify
       - /:/hostfs:ro
   web:
-    image: ${DOCKERHUB_USERNAME}/${DOCKERHUB_REPO_NAME}:latest
+    image: kau511/djecommerce:latest
     ports:
       - "8000:8000"
     env_file:
