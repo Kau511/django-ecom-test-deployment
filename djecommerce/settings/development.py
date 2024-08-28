@@ -1,4 +1,10 @@
 from .base import *
+import logging
+
+logger = logging.getLogger('django')
+
+
+logger.warning('Something happened testing logger for django ec2')
 
 DEBUG = True
 ALLOWED_HOSTS = ['*']

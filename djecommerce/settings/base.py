@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 SECRET_KEY = config('SECRET_KEY')
 
 # Stackify
-APPLICATION_NAME = 'Djecommerce Ec2'
+APPLICATION_NAME = 'DJEcommerce_Ec2'
 ENVIRONMENT = 'Production'
 
 INSTALLED_APPS = [
@@ -102,7 +102,7 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'stackify.StackifyHandler',
             'formatter': 'verbose',
-            'application': 'app_ecom',
+            'application': 'DJEcommerce_Ec2',
             'environment': ENVIRONMENT,
             'api_key': '5Xg7Cu4Gq5Ai2Hf9Es4Ct8Ud5Yg9Vk4Ee1Oa8Ga',
         },
@@ -115,7 +115,7 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'stackify'],
+            'handlers': ['stackify'],
             'level': 'DEBUG',
             'propagate': True,
         },

@@ -1,8 +1,21 @@
 version: '3.3'
 services:
+  stackify:
+    image: stackify/retrace:latest
+    environment:
+      - STACKIFY_KEY=5Xg7Cu4Gq5Ai2Hf9Es4Ct8Ud5Yg9Vk4Ee1Oa8Ga
+      - STACKIFY_ENV=Production
+    user: 0:0
+    volumes:
+      - stackify:/var/stackify
+      - /:/hostfs:ro
   web:
     build: .
     ports:
       - "8000:8000"
     env_file:
       - .env
+    volumes:
+      - stackify:/usr/local/stackify
+volumes:
+  stackify:
