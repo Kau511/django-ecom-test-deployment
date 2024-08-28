@@ -10,7 +10,7 @@ services:
       - stackify:/var/stackify
       - /:/hostfs:ro
   web:
-    build: .
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_NAME }}:latest
     ports:
       - "8000:8000"
     env_file:

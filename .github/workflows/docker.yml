@@ -28,3 +28,33 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_NAME }}:latest
+
+  deploy-to-ec2:
+    needs: build-and-share
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Key
+        uses: webfactory/ssh-agent@v0.10.1
+        with:
+          ssh-private-key: ${{ secrets.EC2SSH }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.EC2IP }}
+          username: ec2-user
+          key: ${{ secrets.EC2SSH }}
+          script: |
+            cd /home/ubuntu/django-ecom-test-deployment
+            echo "Pulling latest changes"
+            git pull
+            echo "Pulling latest Docker images"
+            docker-compose pull
+            echo "Bringing down existing containers"
+            docker-compose down
+            echo "Starting new containers"
+            docker-compose up -d
