@@ -83,6 +83,6 @@ jobs:
                 \"EnvironmentName\": \"Production\",
                 \"AppName\": \"DJEcommerce_Ec2\",
                 \"DeployedBy\": \"GitHub Actions\",
-                \"Version\": \"${{ env.version }}\",
+                \"Version\": \"v1.1\",
                 \"Branch\": \"master\"
                 }" -v
