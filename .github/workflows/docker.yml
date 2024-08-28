@@ -46,7 +46,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.EC2IP }}
-          username: ec2-user
+          username: ubuntu
           key: ${{ secrets.EC2SSH }}
           script: |
             echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
