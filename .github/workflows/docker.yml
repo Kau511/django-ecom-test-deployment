@@ -52,6 +52,7 @@ jobs:
             echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > .env
             echo "DOCKERHUB_REPO_NAME=${{ secrets.DOCKERHUB_REPO_NAME }}" >> .env
             echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+            cat .env
             ssh -o StrictHostKeyChecking=no -i private_key ec2-user@${HOSTNAME} 
             cd /home/ubuntu/django-ecom-test-deployment
             echo "Pulling latest changes"
