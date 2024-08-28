@@ -81,6 +81,7 @@ jobs:
                 curl -X POST https://api.stackify.net/api/v1/deployments/complete -H "Content-Type: application/json" -H "authorization: ApiKey ${{ secrets.API_KEY_STACKIFY }}" \
                 -d "{
                 \"EnvironmentName\": \"Production\",
+                \"Name\": \"Ec2_DJEcomerce_Deploy\",
                 \"AppName\": \"DJEcommerce_Ec2\",
                 \"DeployedBy\": \"GitHub Actions\",
                 \"Version\": \"v1.1\",
