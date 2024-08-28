@@ -12,7 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      
+      - name: Get short commit hash
+        id: get_version
+        run: |
+          VERSION=$(git rev-parse --short HEAD)
+          echo "Commit hash: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_ENV
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -63,3 +70,21 @@ jobs:
             docker compose down
             echo "Starting new containers"
             docker compose up -d
+            
+  notify-retrace:
+      needs: deploy-to-ec2
+      runs-on: ubuntu-latest
+      
+      steps:
+        - name: Notify Retrace of Deployment
+          run: | 
+                curl -X POST \
+                https://api.stackify.net/api/v1/deployments/complete \
+                -H "Content-Type: application/json" \
+                -H "X-Stackify-PV: ${{ secrets.API_KEY_STACKIFY }}" \
+                -d "{
+                  \"EnvironmentName\": \"Production\",
+                  \"AppName\": \"DJEcommerce_Ec2\",
+                  \"DeployedBy\": \"GitHub Actions\",
+                  \"Version\": \"${{ env.version }}\"
+                }"
