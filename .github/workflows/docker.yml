@@ -79,4 +79,10 @@ jobs:
         - name: Notify Retrace of Deployment
           run: | 
                 curl -X POST https://api.stackify.net/api/v1/deployments/complete -H "Content-Type: application/json" -H "authorization: ApiKey ${{ secrets.API_KEY_STACKIFY }}" \
-                -d "{"EnvironmentName": "Production","AppName": "DJEcommerce_Ec2","Branch": "master", "Version": "${{ env.version }}", "DeployedBy": "GitHub Actions"}" -v
+                -d "{
+                \"EnvironmentName\": \"Production\",
+                \"AppName\": \"DJEcommerce_Ec2\",
+                \"DeployedBy\": \"GitHub Actions\",
+                \"Version\": \"${{ env.version }}\",
+                \"Branch\": \"master\"
+                }" -v
